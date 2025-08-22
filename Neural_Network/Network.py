@@ -46,7 +46,6 @@ class Network:
                 out = self.forward(x)
                 a_out = out[0] # Because outputs are in a list (This assumes we only have ONE output)
                 # Update the loss
-                # print(f"Output:{a_out}, Actual Value:{y}")
                 loss = self.loss_fn(a_out, y)
                 total_loss_per_epoch += loss
                 # Obtain the gradient
@@ -54,5 +53,5 @@ class Network:
                 self.back_prop([dL_dA_out])
                 # Update the network weights
                 self.learning_step(learning_rate)
-            if verbose and (epoch % 20 == 0):
+            if verbose and (epoch % 100 == 0):
                 print(f"Epoch {epoch} | Avg Loss: {total_loss_per_epoch /len(X):.4f}")

@@ -35,7 +35,6 @@ class Layer:
             # Must add all contributions to each input entry
             for j in range(len(dL_dx)):
                 dL_dx[j] += dL_dx_node_i[j]
-        print(f"dL_dx: {dL_dx}")
         return dL_dx
 
     def learning_step(self, learning_rate):
