@@ -27,8 +27,7 @@ if __name__ == "__main__":
                 nn.ReLU(),
                 nn.Linear(256, 64),
                 nn.ReLU(),
-                nn.Linear(64, 10),
-                nn.Softmax(dim=1)
+                nn.Linear(64, 10)
             )
 
         def forward(self, x):
@@ -40,10 +39,10 @@ if __name__ == "__main__":
 
     # Define the loss function and optimizer
     loss_fn = nn.CrossEntropyLoss() 
-    optimizer = torch.optim.SGD(model.parameters(), lr=0.1)
+    optimizer = torch.optim.SGD(model.parameters(), lr=0.01)
 
     # Training loop
-    epochs = 5
+    epochs = 3
     for epoch in range(epochs):
         for ind, (x ,y) in enumerate(train_loader):
             # Forward pass
@@ -54,8 +53,8 @@ if __name__ == "__main__":
             optimizer.zero_grad() # Reset the gradients to 0
             loss.backward() # Backpropagation
             optimizer.step() # Update the weights
-            if ind % 100 == 0:
-                print(f"Epoch {epoch + 1} / {epochs}, Step {ind + 1}, Loss: {loss.item()}")
+            if ind % 1000 == 0:
+                print(f"Epoch {epoch + 1} / {epochs}, Step {ind + 1}, Loss: {loss.item():.3f}")
     
     # Testing loop
     accuracy = 0
@@ -65,5 +64,5 @@ if __name__ == "__main__":
             pred = torch.argmax(output, dim=1)
             accuracy += (pred == y).sum().item()
     
-    print("Accuracy on test set: {accuracy / len(mnist_test) * 100:.3f}%")
+    print(f"Accuracy on test set: {accuracy / len(mnist_test) * 100:.3f}%")
 
