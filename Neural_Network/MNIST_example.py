@@ -12,7 +12,6 @@ if __name__ == "__main__":
     mnist_train = datasets.MNIST(root='./data', train=True, download=True, transform=transform)
     mnist_test = datasets.MNIST(root='./data', train=False, download=True, transform=transform)
 
-    print(type(mnist_train))
     # Create a DataLoader to load the dataset in batches
     train_loader = torch.utils.data.DataLoader(mnist_train, batch_size=1, shuffle=True)
     test_loader = torch.utils.data.DataLoader(mnist_test, batch_size=1, shuffle=False)
@@ -54,7 +53,7 @@ if __name__ == "__main__":
             loss.backward() # Backpropagation
             optimizer.step() # Update the weights
             if ind % 1000 == 0:
-                print(f"Epoch {epoch + 1} / {epochs}, Step {ind + 1}, Loss: {loss.item():.3f}")
+                print(f"Epoch {epoch + 1} / {epochs}, Step {ind + 1}, Loss: {loss.item():.4f}")
     
     # Testing loop
     accuracy = 0
