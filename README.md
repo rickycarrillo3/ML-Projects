@@ -7,7 +7,8 @@ This is a place to gain better understanding of the fundamentals of ML. Its aim 
 * Convolutional Neural Networks
 * Recurring Neural Networks
 
-### Decision Tree Algorithms
+### Ensemble Learning Methods
+* Boosting vs Bagging
 * Random Forest Algorithm
 * Gradient Boosting
 * XGBoost
