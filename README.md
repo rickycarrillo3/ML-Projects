@@ -4,7 +4,7 @@ This is a place to gain better understanding of the fundamentals of ML. Its aim 
 ## Topics to cover next (In no particular order)
 
 ### Statistical Learning Theory
-* Monte Carlo Simulations
+* Monte Carlo Simulations DONE
   
 ### Neural Networks
 * Convolutional Neural Networks
