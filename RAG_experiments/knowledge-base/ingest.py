@@ -1,5 +1,5 @@
 """
-ingest.py - Load PDFs from docs/, chunk them, embed, and store in ChromaDB.
+ingest.py - Load PDFs and TXT files from docs/, chunk them, embed, and store in ChromaDB.
 
 Run this once (and re-run whenever you add new documents):
     python ingest.py
@@ -7,7 +7,7 @@ Run this once (and re-run whenever you add new documents):
 
 import os
 from dotenv import load_dotenv
-from langchain_community.document_loaders import PyPDFDirectoryLoader
+from langchain_community.document_loaders import PyPDFDirectoryLoader, DirectoryLoader, TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_chroma import Chroma
@@ -15,6 +15,7 @@ from langchain_chroma import Chroma
 load_dotenv()
 
 DOCS_DIR = "docs"
+TRANSCRIPTS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../recommendation-system/transcripts")
 CHROMA_DIR = "chroma_db"
 EMBED_MODEL = "all-MiniLM-L6-v2"
 CHUNK_SIZE = 500
@@ -22,13 +23,16 @@ CHUNK_OVERLAP = 50
 
 
 def ingest():
-    # 1. Load all PDFs from docs/
-    print(f"Loading PDFs from '{DOCS_DIR}/'...")
-    loader = PyPDFDirectoryLoader(DOCS_DIR)
-    documents = loader.load()
+    # 1. Load all PDFs and TXT files from docs/
+    print(f"Loading documents from '{DOCS_DIR}/'...")
+    pdf_loader = PyPDFDirectoryLoader(DOCS_DIR)
+    documents = pdf_loader.load()
+    if os.path.isdir(TRANSCRIPTS_DIR):
+        txt_loader = DirectoryLoader(TRANSCRIPTS_DIR, glob="*.txt", loader_cls=TextLoader)
+        documents += txt_loader.load()
 
     if not documents:
-        print("No PDF documents found. Drop some PDFs into the docs/ folder and re-run.")
+        print("No documents found. Drop PDFs or TXT files into the docs/ folder and re-run.")
         return
 
     print(f"Loaded {len(documents)} page(s) from {len(set(d.metadata['source'] for d in documents))} file(s).")
@@ -54,7 +58,7 @@ def ingest():
     )
 
     print(f"\nDone! {len(chunks)} chunks stored in '{CHROMA_DIR}/'.")
-    print("You can now run query.py or app.py to chat with your documents.")
+    print("You can now run query.py or app.py to chat with your documents (PDFs and transcripts).")
 
 
 if __name__ == "__main__":
