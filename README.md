@@ -22,7 +22,7 @@ This is a place to gain better understanding of the fundamentals of ML. Its aim 
 * Linear Discriminant Analysis (LDA)
 * Autoencoders
 
-### Diffusion Models
+### Diffusion Models Done
 
 ### Transformers
 
